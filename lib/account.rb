@@ -1,9 +1,8 @@
 require 'time'
+require_relative 'transaction'
 
 class Account
   attr_reader :owner, :balance, :transactions
-
-  MINIMUM_BALANCE = 0
 
   def initialize(owner,balance = 0)
     @owner = owner
@@ -12,17 +11,17 @@ class Account
   end
 
   def withdraw(date=Time.new,amount)
-    save_transaction(date,-amount,@balance)
     reduce_balance(amount)
+    save_transaction(date,-amount)
   end
 
   def deposit(date=Time.new,amount)
-    save_transaction(date,amount,@balance)
     increase_balance(amount)
+    save_transaction(date,amount)
   end
 
   def print_statement
-    print_headers
+    puts statement_headers
     @transactions.each { |t| puts format_transaction(t) }
   end
 
@@ -36,17 +35,31 @@ class Account
     @balance += amount
   end
 
-  def save_transaction(date,amount,balance)
-    @transactions.push({ date: date, amount: amount, balance: balance })
+  def save_transaction(date,amount)
+    @transactions.push(Transaction.new(date,amount,@balance))
   end
 
   def format_transaction(transaction)
-    format_date(transaction[:date]) +
+    date = format_date(transaction.date)
+    amount = format_amount(transaction.amount)
+    balance = format_balance(transaction.amount,transaction.balance)
+    "#{date}" + "#{amount}" + "     #{balance}"
   end
 
   def format_date(date)
-    "#{date.strftime("%I:%M%p")}"
+    "#{date.strftime("%d/%m/%Y")}  "
   end
 
+  def format_amount(amount)
+    amount >0 ? "  #{amount}" : "            #{amount.abs}"
+  end
+
+  def format_balance(amount, balance)
+    amount >0 ? "              #{balance}" : "     #{balance}"
+  end
+
+  def statement_headers
+    "date       || credit || debit   || balance"
+  end
 
 end

@@ -24,17 +24,23 @@ describe Account do
     it "reduces the account balance by the amount withdrawn" do
       expect { subject_1.withdraw(200) }.to change{subject_1.balance}.by(-200)
     end
+    it "increases the transaction count" do
+      expect { subject_1.withdraw(200) }.to change{subject_1.transactions.length}.by(1)
+    end
   end
 
   describe '#deposit' do
     it "increases the account balance by the amount withdrawn" do
       expect { subject_1.deposit(100) }.to change{subject_1.balance}.by(100)
     end
+    it "increases the transaction count" do
+      expect { subject_1.deposit(200) }.to change{subject_1.transactions.length}.by(1)
+    end
   end
 
   # describe '#print_statement' do
   #   it "formats the transaction passed to it" do
-  #     transaction = {2016-11-29 11:52:13 +0000=>[-200, 4000]}
+  #     transaction =
   #     expect
   #   end
   # end
