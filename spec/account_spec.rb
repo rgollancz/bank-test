@@ -22,19 +22,19 @@ describe Account do
 
   describe '#withdraw' do
     it "reduces the account balance by the amount withdrawn" do
-      expect { subject_1.withdraw(200) }.to change{subject_1.balance}.by(-200)
+      expect { subject_1.withdraw("18/12/2016",200) }.to change{subject_1.balance}.by(-200)
     end
     it "increases the transaction count" do
-      expect { subject_1.withdraw(200) }.to change{subject_1.transactions.length}.by(1)
+      expect { subject_1.withdraw("18/12/2016",200) }.to change{subject_1.transactions.length}.by(1)
     end
   end
 
   describe '#deposit' do
     it "increases the account balance by the amount withdrawn" do
-      expect { subject_1.deposit(100) }.to change{subject_1.balance}.by(100)
+      expect { subject_1.deposit("18/12/2016",100) }.to change{subject_1.balance}.by(100)
     end
     it "increases the transaction count" do
-      expect { subject_1.deposit(200) }.to change{subject_1.transactions.length}.by(1)
+      expect { subject_1.deposit("18/12/2016",200) }.to change{subject_1.transactions.length}.by(1)
     end
   end
 
