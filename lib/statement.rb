@@ -3,15 +3,18 @@ module Statement
   def format_transaction(transaction)
     amount = format_amount(transaction.amount)
     balance = format_balance(transaction.amount,transaction.balance)
-    "#{transaction.date}" + "#{amount}" + "     #{balance}"
+    "#{transaction.date} ||" + "#{amount}" + "#{balance}"
   end
 
   def format_amount(amount)
-    amount >0 ? "  #{"%.2f" % amount}" : "            #{"%.2f" % amount.abs}"
+    a = "#{"%.2f" % amount.abs}"
+    debit_space = "        "
+    space_after = " " * (7-(a.length))
+    amount >0 ? (" #{a}" + space_after + "||")  : (debit_space + "|| #{a}" + space_after)
   end
 
   def format_balance(amount, balance)
-    amount >0 ? "              #{balance}" : "     #{balance}"
+    amount >0 ? "         || #{"%.2f" % balance}" : " || #{"%.2f" % balance}"
   end
 
   def statement_headers

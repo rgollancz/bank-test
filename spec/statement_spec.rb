@@ -6,10 +6,10 @@ describe Statement do
 
   describe "#format_amount" do
     it "formats a positive transaction amount" do
-      expect(dummy_class.new.format_amount(456)).to eq "  456.00"
+      expect(dummy_class.new.format_amount(456)).to eq " 456.00 ||"
     end
     it "formats a negative transaction amount" do
-      expect(dummy_class.new.format_amount(-456)).to eq "            456.00"
+      expect(dummy_class.new.format_amount(-456)).to eq "        || 456.00 "
     end
   end
 
